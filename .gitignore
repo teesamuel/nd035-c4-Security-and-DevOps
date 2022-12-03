@@ -1,2 +1,12 @@
 .idea/
 /starter_code/target/
+logs/*
+starter_code/auth-course.iml
+starter_code/target/*
+
+.DS_Store
+
+### IntelliJ IDEA ###
+*.iws
+*.iml
+*.ipr

@@ -2,6 +2,8 @@ package com.example.demo.controllers;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,16 +29,18 @@ public class OrderController {
 	
 	@Autowired
 	private OrderRepository orderRepository;
-	
-	
+
+	protected static final Logger log = LogManager.getLogger(OrderController.class.getName());
 	@PostMapping("/submit/{username}")
 	public ResponseEntity<UserOrder> submit(@PathVariable String username) {
 		User user = userRepository.findByUsername(username);
 		if(user == null) {
+			log.error("Failed to submitted  order for username {} due to invalid user",username);
 			return ResponseEntity.notFound().build();
 		}
 		UserOrder order = UserOrder.createFromCart(user.getCart());
 		orderRepository.save(order);
+		log.info("Successfully submitted  order for username {}",username);
 		return ResponseEntity.ok(order);
 	}
 	
@@ -44,8 +48,10 @@ public class OrderController {
 	public ResponseEntity<List<UserOrder>> getOrdersForUser(@PathVariable String username) {
 		User user = userRepository.findByUsername(username);
 		if(user == null) {
+			log.error("Failed to retrieve  order for username {} due to invalid user",username);
 			return ResponseEntity.notFound().build();
 		}
+		log.info("Successfully retrieve  order for username {}",username);
 		return ResponseEntity.ok(orderRepository.findByUser(user));
 	}
 }

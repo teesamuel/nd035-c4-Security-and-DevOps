@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.controllers.UserController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -13,11 +16,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class SareetaApplication {
 
+	private static final Logger log = LogManager.getLogger(SareetaApplication.class.getName());
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
 	public static void main(String[] args) {
+		log.info("\n\n===========================================\n" +
+				"APP STARTED\n" +
+				"===========================================\n");
 		SpringApplication.run(SareetaApplication.class, args);
 	}
 
